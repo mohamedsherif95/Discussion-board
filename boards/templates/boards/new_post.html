@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %} new {{ board.name }} topic {% endblock %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb dark my-3 p-3 bg-light rounded-3">
+        <li class="breadcrumb-item"><a href="{% url 'boards:home' %}">Boards</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'boards:board_topics' topic.board.pk %}">{{ topic.board.name }}</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'boards:topic_posts' topic.board.pk topic.pk %}">{{ topic.subject }}</a></li>
+        <li class="breadcrumb-item active">add new post</li>
+    </ol>
+{% endblock %}
+{% block content %}
+<div class="container">
+    <form action="{% url 'boards:new_post' topic.board.pk topic.pk %}" method="post" class="form" novalidate>
+        {% csrf_token %}
+        {% include 'includes/form.html' %}
+        <button type="submit" class="btn btn-primary my-1">Add Post</button>
+    </form>
+    {% for post in topic.posts.all reversed %}
+        <div class="card my-2">
+            <div class="card-header">
+                <div class="row">
+                    <h5 class="col-9">{{ post.created_by.username }}</h5>
+                    <div class="text-end col-3 text-muted"><small>{{ post.date }}</small></div>
+                </div>
+            </div>
+            <div class="card-body py-0">
+                <p>{{ post.message }}</p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %} new {{ board.name }} topic {% endblock %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb dark my-3 p-3 bg-light rounded-3">
+        <li class="breadcrumb-item"><a href="{% url 'boards:home' %}">Boards</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'boards:board_topics' board.pk %}">{{ board.name }}</a></li>
+        <li class="breadcrumb-item active">new topic</li>
+    </ol>
+{% endblock %}
+{% block content %}
+    <form action="{% url 'boards:new_topic' board.pk %}" method="post" class="form bg-light" novalidate>
+        {% csrf_token %}
+        {% include 'includes/form.html' %}
+        <button type="submit" class="btn btn-primary my-1">Add New Topic</button>
+    </form>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %} Boards {% endblock %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb dark my-3 p-3 bg-light rounded-3">
+        <li class="breadcrumb-item active">Boards</li>
+    </ol>
+{% endblock %}
+
+{% block content %}
+    <table class="table">
+        <thead class="table-dark">
+            <tr>
+                <th class="col-6">Board</th>
+                <th>Topics</th>
+                <th>Posts</th>
+                <th>Last Updated</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for board in boards %}
+                <tr>
+                    <td><a href="{% url 'boards:board_topics' board.pk %}">{{ board.name }}</a>
+                        <small class="text-muted d-block">{{ board.description }}</small>
+                    </td>
+                    <td>{{ board.topics.count }}</td>
+                    <td>{{ board.post_count }}</td>
+                    <td>
+                        {% if board.last_post %}
+                        by <a href="#">{{ board.last_post.created_by.username }}</a> at {{ board.last_post.date }}
+                        {% else %}
+                        <p class="text-muted">no posts yet</p>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
+{% block navbar %}{% endblock %}
+{% block content %}
+<form action="{% url 'accounts:login' %}" class="form mx-auto my-5 p-3 rounded-3 bg-light col-7 card" method="post" novalidate>
+<h1>Login</h1>
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ next }}">
+    {% include 'includes/form.html' %}
+    <button class="btn btn-primary mt-3 col-12">Sign in</button>
+    <div class="text-muted">
+        <a href="#">Forgot password</a>
+    </div>
+    <div class="text-muted text-center">
+        are you new here? <a href="{% url 'accounts:signup' %}">signup</a>
+    </div>
+</form>
+{% endblock %}
